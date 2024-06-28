@@ -1,6 +1,7 @@
 package com.example.auth.controller;
 
 import com.example.auth.model.dto.LoginDto;
+import com.example.auth.model.dto.LoginResponse;
 import com.example.auth.model.dto.UserDto;
 import com.example.auth.model.entity.User;
 import com.example.auth.service.AuthService;
@@ -12,6 +13,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Map;
+
 @RestController
 @RequestMapping("/api/v1/auth")
 @RequiredArgsConstructor
@@ -20,11 +23,11 @@ public class AuthController {
     private final AuthService authService;
 
     @PostMapping("/login")
-    public ResponseEntity<String> loginAndAuthenticate(
+    public ResponseEntity<LoginResponse> loginAndAuthenticate(
             @RequestBody LoginDto loginDto
     ) {
-        String token = authService.loginAndAuthenticate(loginDto);
-        return ResponseEntity.status(HttpStatus.OK).body(token);
+       String token = authService.loginAndAuthenticate(loginDto);
+        return ResponseEntity.status(HttpStatus.OK).body(new LoginResponse(token));
     }
 
     @PostMapping("register")
