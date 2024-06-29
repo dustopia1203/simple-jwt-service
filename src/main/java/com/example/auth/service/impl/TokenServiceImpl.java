@@ -23,8 +23,8 @@ public class TokenServiceImpl implements TokenService {
     }
 
     @Override
-    public void saveToken(Token token) {
-        tokenRepository.save(token);
+    public void saveToken(String username, String token) {
+        tokenRepository.save(Token.builder().username(username).type("BEARER").token(token).isRevoked(false).build());
     }
 
 }

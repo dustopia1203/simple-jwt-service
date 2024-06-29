@@ -8,6 +8,6 @@ public interface TokenService {
 
     public void revokeAllTokensOfUser(String username);
 
-    public void saveToken(Token token);
+    public void saveToken(String username, String token);
 
 }

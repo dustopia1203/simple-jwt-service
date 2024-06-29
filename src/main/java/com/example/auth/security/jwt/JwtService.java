@@ -17,27 +17,38 @@ import java.util.Map;
 @Service
 public class JwtService {
 
-    @Value("${app.jwt-secret}")
+    @Value("${app.jwt.secret}")
     private String SECRET_KEY;
 
-    @Value("${app.jwt-validity}")
-    private Long VALIDITY;
+    @Value("${app.jwt.expiration}")
+    private Long EXPIRATION;
+
+    @Value("${app.jwt.refresh-token.expiration}")
+    private Long REFRESH_EXPIRATION;
 
     private SecretKey generateKey() {
         return Keys.hmacShaKeyFor(Base64.getDecoder().decode(SECRET_KEY));
     }
 
-    public String generateToken(UserDetails userDetails) {
-        Map<String, String> claims = new HashMap<>();
-        claims.put("4444", "12122003");
+    private String buildToken(Map<String, Object> claims ,UserDetails userDetails, Long expiration) {
         return Jwts
                 .builder()
                 .claims(claims)
                 .subject(userDetails.getUsername())
                 .issuedAt(Date.from(Instant.now()))
-                .expiration(Date.from(Instant.now().plusMillis(VALIDITY)))
+                .expiration(Date.from(Instant.now().plusMillis(expiration)))
                 .signWith(generateKey())
                 .compact();
+    }
+
+    public String generateToken(UserDetails userDetails) {
+        Map<String, Object> claims = new HashMap<>();
+        claims.put("4444", "12122003");
+        return buildToken(claims, userDetails, EXPIRATION);
+    }
+
+    public String generateRefreshToken(UserDetails userDetails) {
+        return buildToken(new HashMap<>(), userDetails, REFRESH_EXPIRATION);
     }
 
     private Claims extractClaims(String token) {

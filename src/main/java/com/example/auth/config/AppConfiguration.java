@@ -1,6 +1,6 @@
 package com.example.auth.config;
 
-import com.example.auth.security.CustomUserDetailService;
+import com.example.auth.security.CustomUserDetailsService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -16,7 +16,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @RequiredArgsConstructor
 public class AppConfiguration {
 
-    private final CustomUserDetailService userDetailService;
+    private final CustomUserDetailsService userDetailService;
 
     @Bean
     public UserDetailsService userDetailsService() {
