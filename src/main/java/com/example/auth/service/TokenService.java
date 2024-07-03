@@ -1,6 +1,5 @@
 package com.example.auth.service;
 
-import com.example.auth.model.entity.Token;
 import org.springframework.stereotype.Service;
 
 @Service
