@@ -4,6 +4,7 @@ import io.swagger.v3.oas.annotations.Hidden;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -46,12 +47,14 @@ public class HomeController {
                     )
             }
     )
+    @PreAuthorize("hasRole('ADMIN')")
     public String handleAdminHome() {
         return "Welcome to ADMIN home!";
     }
 
     @GetMapping("/user")
     @Hidden
+    @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
     public String handleUserHome() {
         return "Welcome to USER home!";
     }
